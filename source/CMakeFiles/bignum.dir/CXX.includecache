@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bojan/cfiles/solve/source/bignum.cpp
+iostream
+-
+string
+-
+algorithm
+-
+bignum.hpp
+/home/bojan/cfiles/solve/source/bignum.hpp
+
+include/bignum.hpp
+iostream
+-
+string
+-
+misc.hpp
+include/misc.hpp
+
+include/misc.hpp
+iostream
+-
+string
+-
+sstream
+-
+vector
+-
+utility
+-
+functional
+-
+initializer_list
+-
+

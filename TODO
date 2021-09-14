@@ -1,0 +1,10 @@
+strict TODO:
+  - add new functions (inverses of trigonometric), add all aux data for existing (evaluations only for real arguments)
+soft TODO:
+  - in derivative_steps, make sure derivative of const doesnt get written at all, and that multiplications with 1 dont get written at all
+  - add evaluations for complex arguments in functions, such as ln(1/2+i sqrt(3)/2)
+  - simplify rational of realtively simple rational functions takes way too long, say derivative of (x-a)/(x-2) or x^10/(x-1) -- needs rewriting simplify rational, big thing
+  - in fraction.to_expression() make sure x+(-1) gets written as x-1 (cant reproduce this. wtf??)
+  - if partial fractions cant be computed (not enough zeros) just show residue with division -- this way they get quotient and residue
+  - graph formula preprocessing (for x^(1/3)) too slow (try (1+3\x)^3 to see) -- speed it up, the holdup is probably determination whether power of form (a/b), b odd; perhaps different evaluation
+      function for graph drawing of powers

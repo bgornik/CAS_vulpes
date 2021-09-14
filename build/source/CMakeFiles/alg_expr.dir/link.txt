@@ -1,0 +1,2 @@
+/bin/ar qc libalg_expr.a  CMakeFiles/alg_expr.dir/alg_expr.cpp.o
+/bin/ranlib libalg_expr.a

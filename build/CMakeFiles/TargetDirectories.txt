@@ -1,0 +1,7 @@
+/home/bojan/cfiles/solve/build/CMakeFiles/rebuild_cache.dir
+/home/bojan/cfiles/solve/build/CMakeFiles/edit_cache.dir
+/home/bojan/cfiles/solve/build/CMakeFiles/Solve.dir
+/home/bojan/cfiles/solve/build/source/CMakeFiles/edit_cache.dir
+/home/bojan/cfiles/solve/build/source/CMakeFiles/rebuild_cache.dir
+/home/bojan/cfiles/solve/build/source/CMakeFiles/expression.dir
+/home/bojan/cfiles/solve/build/source/CMakeFiles/bignum.dir

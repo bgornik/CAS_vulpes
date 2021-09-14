@@ -1,0 +1,1 @@
+/bin/g++-9  -g   CMakeFiles/Solve.dir/solve.cpp.o  -o Solve  source/libbignum.a source/libexpression.a 
