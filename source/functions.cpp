@@ -322,7 +322,45 @@ map_bf<big_num_rational,algebraic_expression::fraction> special_vals_exp{
   known_functions.emplace_back(sin_func_name, 1, [](const std::vector<cd>& arg) {
     return std::sin(arg.front());
 }, [](const std::vector<algebraic_expression::fraction>& arg) {
-    return std::make_pair(false, algebraic_expression::fraction(0));
+
+map_bf<big_num_rational,algebraic_expression::fraction> special_vals_sin{
+    { big_num_rational(0,1), algebraic_expression::fraction(0LL) },
+    { big_num_rational(1,3), 
+       algebraic_expression::fraction(std::vector<algebraic_expression::term>{  
+         algebraic_expression::term(3, algebraic_expression::fraction(big_num_rational(1,2))) }, 
+       std::vector<algebraic_expression::term>{ algebraic_expression::term(2) })
+    },
+    { big_num_rational(1,4), 
+       algebraic_expression::fraction(std::vector<algebraic_expression::term>{ 
+         algebraic_expression::term(2, algebraic_expression::fraction(big_num_rational(1,2))) }, 
+       std::vector<algebraic_expression::term>{ algebraic_expression::term(2) })  },
+    { big_num_rational(1,6), 
+       algebraic_expression::fraction(std::vector<algebraic_expression::term>{
+         algebraic_expression::term(1) },
+       std::vector<algebraic_expression::term>{ algebraic_expression::term(2) })  },
+    {big_num_rational(1,2),  algebraic_expression::fraction(1) }
+};
+
+auto val = (arg.front()/algebraic_expression::fraction(
+  std::vector<algebraic_expression::term>{ algebraic_expression::term(pi_number.name, algebraic_expression::fraction(1)) },
+  std::vector<algebraic_expression::term>{ algebraic_expression::term(1) }
+)).extract_rational_number();
+if (val.first) {
+  algebraic_expression::fraction ret(1);
+  val.second.numerator = val.second.numerator % (val.second.denominator*2);
+  if (val.second.numerator>=val.second.denominator) {
+    ret = ret * algebraic_expression::fraction(-1);
+    val.second.numerator = val.second.numerator - val.second.denominator;
+  }
+  if (val.second.numerator*2>=val.second.denominator) {
+    val.second.numerator = val.second.denominator - val.second.numerator;
+  }
+  if (special_vals_sin.exists(val.second)) {
+    return std::make_pair(true, special_vals_sin[val.second]*ret);
+  }
+}
+return std::make_pair(false, algebraic_expression::fraction(0));  
+
 }, [](const std::vector<expression::eq_node*>& args, int i){
   return expression::apply(cos_func_name, {expression(args[0])});
 }, std::vector<std::string>{  }, 
@@ -340,8 +378,50 @@ map_bf<big_num_rational,algebraic_expression::fraction> special_vals_exp{
   // 13
   known_functions.emplace_back(cos_func_name, 1, [](const std::vector<cd>& arg) {
     return std::cos(arg.front());
-}, [](const std::vector<algebraic_expression::fraction>& arg) {
-    return std::make_pair(false, algebraic_expression::fraction(0));
+}, [this](const std::vector<algebraic_expression::fraction>& arg) {
+
+
+map_bf<big_num_rational,algebraic_expression::fraction> special_vals_cos{
+    { big_num_rational(1,2), algebraic_expression::fraction(0LL) },
+    { big_num_rational(1,6), 
+       algebraic_expression::fraction(std::vector<algebraic_expression::term>{  
+         algebraic_expression::term(3, algebraic_expression::fraction(big_num_rational(1,2))) }, 
+       std::vector<algebraic_expression::term>{ algebraic_expression::term(2) })
+    },
+    { big_num_rational(1,4), 
+       algebraic_expression::fraction(std::vector<algebraic_expression::term>{ 
+         algebraic_expression::term(2, algebraic_expression::fraction(big_num_rational(1,2))) }, 
+       std::vector<algebraic_expression::term>{ algebraic_expression::term(2) })  },
+    { big_num_rational(1,3), 
+       algebraic_expression::fraction(std::vector<algebraic_expression::term>{
+         algebraic_expression::term(1) },
+       std::vector<algebraic_expression::term>{ algebraic_expression::term(2) })  },
+    {big_num_rational(0,1),  algebraic_expression::fraction(1) }
+};
+
+auto val = (arg.front()/algebraic_expression::fraction(
+  std::vector<algebraic_expression::term>{ algebraic_expression::term(pi_number.name, algebraic_expression::fraction(1)) },
+  std::vector<algebraic_expression::term>{ algebraic_expression::term(1) }
+)).extract_rational_number();
+if (val.first) {
+  algebraic_expression::fraction ret(1);
+  val.second.numerator = val.second.numerator % (val.second.denominator*2);
+  if (val.second.numerator>=val.second.denominator) {
+    ret = ret * algebraic_expression::fraction(-1);
+    val.second.numerator = val.second.numerator - val.second.denominator;
+  }
+  if (val.second.numerator*2>=val.second.denominator) {
+    ret = ret * algebraic_expression::fraction(-1);
+    val.second.numerator = val.second.denominator - val.second.numerator;
+  }
+  if (special_vals_cos.exists(val.second)) {
+    return std::make_pair(true, special_vals_cos[val.second]*ret);
+  }
+}
+return std::make_pair(false, algebraic_expression::fraction(0));  
+
+
+
 }, [](const std::vector<expression::eq_node*>& args, int i){
   return -expression::apply(sin_func_name, { expression(args[0]) });
 }, std::vector<std::string>{  },
@@ -397,7 +477,11 @@ map_bf<big_num_rational,algebraic_expression::fraction> special_vals_exp{
   // 17
   known_functions.emplace_back(tan_func_name, 1, [](const std::vector<cd>& arg) {
     return std::tan(arg.front());
-}, [](const std::vector<algebraic_expression::fraction>& arg) {
+}, [this](const std::vector<algebraic_expression::fraction>& arg) {
+  auto n = sin_func.eval_function(arg);
+  if (n.first) {
+    return std::make_pair(true, n.second/cos_func.eval_function(arg).second);
+  }
     return std::make_pair(false, algebraic_expression::fraction(0));
 }, [](const std::vector<expression::eq_node*>& args, int i){
   return expression(1)/expression::apply(power_func_name, { expression::apply(cos_func_name, {expression(args[0])}), expression(2)});
