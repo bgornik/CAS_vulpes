@@ -10,4 +10,4 @@ Currently, it supports
 * finding zeros of polynomials
 * partial fractions expansion of rational functions
 
-You can see it in action [here](http://18.157.251.104/).
+You can see it in action [here](https://www.snakedive.com/cas_vulpes).
